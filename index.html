@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Police Alerts</title>
+<style>
+  html, body {
+    margin: 0; padding: 0;
+    width: 600px; height: 600px;
+    background: #000;
+    color: #fff;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    overflow: hidden;
+  }
+  #app {
+    width: 600px; height: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    box-sizing: border-box;
+  }
+  #question {
+    font-size: 30px;
+    font-weight: 600;
+    color: #fff;
+  }
+  #options {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 320px;
+  }
+  .option {
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding: 16px 0;
+    text-align: center;
+    font-size: 22px;
+    color: #999;
+    background: #0a0a0a;
+  }
+  .option.selected {
+    border-color: #ffb020;
+    color: #ffb020;
+    background: #1a1200;
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="question">Like my app?</div>
+  <div id="options">
+    <div class="option selected" id="opt-donate">Donate</div>
+    <div class="option" id="opt-no">No thanks</div>
+  </div>
+</div>
+
+<script>
+  const PAYPAL_URL = 'https://www.paypal.com/ncp/payment/E3XCQ9BMJH35N';
+  const options = ['opt-donate', 'opt-no'];
+  let selected = 0;
+
+  function render() {
+    options.forEach((id, i) => {
+      document.getElementById(id).classList.toggle('selected', i === selected);
+    });
+  }
+
+  function confirmChoice() {
+    if (options[selected] === 'opt-donate') {
+      window.location.href = PAYPAL_URL;
+    } else {
+      window.location.href = 'alerts.html';
+    }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowUp') {
+      selected = Math.max(0, selected - 1);
+      render();
+    } else if (e.key === 'ArrowDown') {
+      selected = Math.min(options.length - 1, selected + 1);
+      render();
+    } else if (e.key === 'Enter') {
+      confirmChoice();
+    }
+  });
+
+  render();
+</script>
+</body>
+</html>
